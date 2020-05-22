@@ -30,7 +30,7 @@ First, read data
 second, data cleaning & preprocessing
 The window size and overlap is set to 250 and 50 respectively.
 
-![Alt text](har.PNG?raw=true "Title")
+![Alt ssstext](har.PNG?raw=true "Titlssssssse")
 
 expand dimension:
 in this step we have some predefined dimensions, but you could add more dimensions as you like, e.g. some specific shape
