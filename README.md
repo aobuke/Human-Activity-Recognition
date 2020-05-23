@@ -5,6 +5,12 @@ Requirements: accelerometer, gyroscope
 
 the code is very easy to transform to C language since only array is used instead of complex data structures.
 
+TL;DR: how to run this script:
+1. prepare data
+2. run
+3. check label
+
+
 Experiment design notes:
 1. Use a camera to record the subject's activity
     or one time period for one specific activity
@@ -14,32 +20,42 @@ Experiment design notes:
     e.g. Advanced Sensor Recorder, Sensor Record or https://github.com/kprikshit/android-sensor-data-recorder
     
 
+Human activity recognition uses sensors on smartphone to estimate user's activities such as walking and running. Deep learning techniques like LSTM have been introduced and good performances are achieved. However, the computational cost of deep learning and the complexity of deployment limit the application of the method. Moreover, if you want explanable algorithms then the traditional machine learning techniques are more applicable.
 
-Sensor data is one kind of time series data. For a typical procedure of sensor data classification, we need:
-1. prepare a labeled dataset: labeled by file/ by video camera/ by each point
-2. segmentation
-3. fearure extraction
-4. classification and test
+Sensor data is one kind of time series data, for accelerometer, x-axis is time and y-axis is 'g'. 
 
-Another approach based on deep learning like LSTM is point-wise and could give each point a label.
+![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
 
-We record the data by each file, which means each file is one activity.
+A typical way of sensor data classification:
+
+1. data pre-processing (clearning + segmentation)
+2. fearure extraction
+3. classification and test
+
+
+For each data file there has only one label (activity), and we set the window size to 250 and overlap to 50.
 
 First, read data
 
-second, data cleaning & preprocessing
-The window size and overlap is set to 250 and 50 respectively.
+Second, data pre-processing (clearning + dimention expand + segmentation)
+
+you could just plot every file and remove some data that is recorded in bad circumstance.
+The 3d accelerometer is stored in a 3*N matrix. For each one column we segment the data and obtain a matrix, e.g. N = 1500 and then size(Matrix) is window size * 6 as shown in the Figure XXX.
+For 3d acceleromter, we segment each axis and obtain three matrix in Figure XXX.
+
+
 
 ![Alt ssstext](har.PNG?raw=true "Titlssssssse")
 
-expand dimension:
+third, segementation and expand dimension:
 in this step we have some predefined dimensions, but you could add more dimensions as you like, e.g. some specific shape
-  
-third, segmentation
+ 
 
 fourth, feature extraction
 
 five, classification and test
+
+Look into wrong classified labels
 
 
 References:
