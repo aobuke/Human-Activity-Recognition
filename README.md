@@ -8,6 +8,8 @@ Human activity recognition uses sensors on smartphone to estimate user's activit
 
 Sensor data is one kind of time series data, for accelerometer, x-axis is time and y-axis is 'g'. 
 
+![Alt ssstext](figure0.PNG?raw=true "place an example of 3-dim accelerometer here")
+
 ![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
 
 the code is very easy to transform to C language since only array is used instead of complex data structures.
