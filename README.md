@@ -6,11 +6,26 @@ Requirements: accelerometer, matlab, android
 ## Introduction
 Human activity recognition uses sensors on smartphone to estimate user's activities such as walking and running. Deep learning techniques like LSTM have been introduced and good performances are achieved. However, the computational cost of deep learning and the complexity of deployment limit the application of the method. Moreover, if you want explanable algorithms then the traditional machine learning techniques are more applicable.
 
-Sensor data is one kind of time series data, for accelerometer, x-axis is time and y-axis is 'g'. 
+Sensor data is one kind of time series data, for accelerometer, x-axis is time and y-axis is 'g' in Figure 0. 
 
 ![Alt ssstext](figure0.PNG?raw=true "place an example of 3-dim accelerometer here")
 
-![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
+## Data pre-processing
+
+The accelerometer data is stored in files by CSV format. For example,
+
+                                    x	   y	 z
+                                    76	-1053	-7
+                                    76	-1056	-9
+                                    76	-1063	-4
+                                   acc_2020.02.02.txt
+Read all the data files into a variable DATA (size:timelength X 3) in Matlab.
+
+By window=250 and overlap=100, the DATA is then segmented into frames in Figure 1.
+
+    ![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
+
+
 
 the code is very easy to transform to C language since only array is used instead of complex data structures.
 
@@ -62,6 +77,7 @@ five, classification and test
 
 Look into wrong classified labels
 
+in order to add fearures, one could expand a dimension and craft any features like if has a peak, if has some specific shape
 
 References:
 
