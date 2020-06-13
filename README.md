@@ -23,7 +23,7 @@ Read all the data files into a variable DATA (size:timelength X 3) in Matlab.
 
 By window=250 and overlap=100, the DATA is then segmented into frames in Figure 1.
 
-    ![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
+  ![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
 
 
 
