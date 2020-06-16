@@ -3,6 +3,12 @@ Start Code of Human Activity Recognition by Sensor on Smartphone
 
 Requirements: accelerometer, matlab, android, basic ML like how to call lib
 
+Constant:
+- N: 
+- winSize:
+- winLength:
+- winCount:
+
 ## Introduction
 Human activity recognition uses sensors on smartphone to estimate user's activities such as walking and running. Deep learning techniques like LSTM have been introduced and good performances are achieved. However, the computational cost of deep learning and the complexity of deployment limit the application of the method. Moreover, if you want explanable algorithms then the traditional machine learning techniques are more applicable.
 
@@ -10,13 +16,9 @@ Sensor data is one kind of time series data, for accelerometer, x-axis is time a
 
 ![Alt ssstext](figure0.PNG?raw=true "place an example of 3-dim accelerometer here")
 
-frame(:,:,1) = buffer(data(:,1),winSize,winOverlap,'nodelay')';
-
 ## Data pre-processing
 
-The accelerometer data is stored in files by CSV format. For example,
-
-  acc_2020.02.02.txt:
+The accelerometer data is recorded by APP and stored in files by CSV format. For example the data format of a data file named acc_2020.02.02.txt is splited by '\t':
   
                                     x       y       z
                                     76    -1053    -7
@@ -26,17 +28,21 @@ The accelerometer data is stored in files by CSV format. For example,
                                    
 Read all the data files into a variable DATA (size:timelength X 3) in Matlab.
 
-By window=250 and overlap=100, the DATA is then segmented into frames in Figure 1.
+By window=250 and overlap=100, the DATA of one dimension and three dimensions are segmented into frames respectively like Figure 1.
 
   ![Alt ssstext](figure1.PNG?raw=true "place an example of 3-dim accelerometer here")
+  
+```Matlab
+frame(:,:,1) = buffer(data(:,1),winSize,winOverlap,'nodelay')';
+```
+Where the build-in function buffer() is employed.
+Hence, we have transformed Nx3 array into windowLength X windowCount X 3 array.
 
-Figure 1(a) is the transform of single transformation, Figure 1 (b) is the situation of three dimensions. Hence, we have transformed Nx3 array into windowLength X windowCount X 3 array.
-
-Besides the dimensions of the raw 3d data, we could also expand the dimensions like: 
-magnitude: x2+y2+z2, enhance invariant of rotation   
-angle X-Y,  
-angle X-Z,  
-etc.  
+In order to extract more information based on raw data, we could also construct more dimensions from the original 3-d(X,Y,Z) data like: 
+- Magnitude: x2+y2+z2, enhance invariant of rotation   
+- Angle X-Y,  
+- Angle X-Z,  
+- etc.  
 
 
 ![Alt ssstext](har.PNG?raw=true "Titlssssssse")
@@ -45,7 +51,7 @@ Finally, we got an array of FRAME:  windowCount X windowLength X 8, which means 
 
 ## Feature extraction
 
-The feature is extracted based on each frame (windowLength x 1), so for each DIMENSION we extract features from the FRAME and get a FEATURE with size of windowCount x 18 x 8.
+To extract *feature data* from *frame* (windowLength x 1), build-in functions like mean() is applied on each frame (windowLength x 1). Thus the *featureDataset* has size of windowCount x 18 x 8.
 
 | index | feature  | index | feature    | index | feature       | index | feature |
 |-------|----------|-------|------------|-------|---------------|-------|---------|
@@ -59,9 +65,11 @@ The feature is extracted based on each frame (windowLength x 1), so for each DIM
 
 Table 1
 
-Table 1 contains the statistical features, spectral features, and some heuristic features. For your implementation, you should adjust the frequency bins by your own sampling rate. 
+Table 1 lists all the statistical features, spectral features, and some heuristic/combinational features in the script. For your implementation, you should adjust the frequency bins by your own sampling rate. 
 
+```Matlab
 FeatureDataset(:, 1, dim) = mean(frame(:,:,dim), 2);
+```
 
 In order to put the feature data into classifiers, we need adjust the FEATURE more. The FEATURE windowCount x 18 x 8 is rearranged into 2 dimensional array windowCount x 144. We also want the correlation coefficients between different dimensions included:
 
