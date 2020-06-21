@@ -42,6 +42,7 @@ If *frameSize=250* and *frameOverlap=100*, a (N, 1) data could be segmented to (
 |![Figure1](https://raw.githubusercontent.com/aobuke/Human-Activity-Recognition/master/figure2.PNG) | 
 |:--:| 
 | *Figure 2: Segmentation Example* |
+
   Where the solid line is the end of a frame and the dotted line is the start, and there has overlap between the two lines.
 ```Matlab
     frame(:,:,1) = buffer(rawData(:,1),frameSize,frameOverlap,'nodelay')';
@@ -51,11 +52,16 @@ If *frameSize=250* and *frameOverlap=100*, a (N, 1) data could be segmented to (
 Where the build-in function buffer() is employed. Hence, we have transformed (N, 3) data into (frameSize, frameNum, 3)  array.
 ### Expand Dimension
 In order to extract more information based on raw data of (x, y, z), we could also construct more dimensions from the original data like: 
-   >![magnitude](https://latex.codecogs.com/svg.latex?m=\sqrt{x^2&space;&plus;&space;y^2&space;&plus;&space;z^2}), the magnitude that makes the recognition invariant to rotation.
+![magnitude](https://latex.codecogs.com/svg.latex?m=\sqrt{x^2&space;&plus;&space;y^2&space;&plus;&space;z^2}), the magnitude that makes the recognition invariant to rotation.
+   
 ![phi](https://latex.codecogs.com/svg.latex?\phi'=cos^{-1}(\frac{z}{m}))
+
 ![theta](https://latex.codecogs.com/svg.latex?%5Ctheta%3Dtan%5E%7B-1%7D%28%5Cfrac%7Bx%7D%7B%5Csqrt%7By%5E2&plus;z%5E2%7D%29%7D%29)
+
 ![psi](https://latex.codecogs.com/svg.latex?%5Cpsi%3Dtan%5E%7B-1%7D%28%5Cfrac%7By%7D%7B%5Csqrt%7Bx%5E2&plus;z%5E2%7D%29%7D%29)
+
 ![](https://latex.codecogs.com/svg.latex?%5Cphi%3Dtan%5E%7B-1%7D%28%5Cfrac%7B%5Csqrt%7Bx%5E2&plus;y%5E2%7D%29%7D%7Bz%7D%29)
+
 Where ![](https://latex.codecogs.com/svg.latex?\phi'), ![](https://latex.codecogs.com/svg.latex?%5Ctheta), ![](https://latex.codecogs.com/svg.latex?%5Cpsi), and ![](https://latex.codecogs.com/svg.latex?%5Cphi) are the angles of the sensor [].
 
 |![Figure3](https://raw.githubusercontent.com/aobuke/Human-Activity-Recognition/master/figure3.PNG) | 
