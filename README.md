@@ -101,6 +101,7 @@ todo: adjust the frequency coef in script to avoid magic bin number.
 | 5     | skewness | 12    | f6_16      | 19    | f1            | 26    | f8      |
 | 6     | kurtosis | 13    | f1/f2_3    | 20    | f2            | 27    | f9      |
 | 7     | energy   | 14    | f4_5/f6_16 | 21    | f3            | 28    | f10     |
+
 *Table 1: Statistical Features, Spectral Features and other Features*
 
 Simply apply all these features to every frame in *frameData*, we obtain a *FeatureData* (frameNum, 18, 8).
