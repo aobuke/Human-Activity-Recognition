@@ -2,7 +2,7 @@
 # Human-Activity-Recognition
 Start Code of Human Activity Recognition by Sensor on Smartphone
 
-Requirements: accelerometer, matlab, android, basic ML like how to call lib
+Requirements knowledge: Accelerometer, Matlab, basic ML, Android
 
 Constant:
 - *N*: the length of a raw data array
@@ -18,12 +18,13 @@ Essential Variables:
 - *labels*: labels of *frames*
 - *frameData*:  original three axis data plus the expended dimensions, size (*frameNum* * *frameLen* * *dimNum*)
 - *featureData*: extract features from *frameData*, also the training data
+
 ## TLDR：
 Just RUN or 
 Follow the section of Data-processing, adjust your data file format and put your files into the folders. then RUN!
 
 ## Introduction
-Human activity recognition uses sensors on smartphone to estimate user's activities such as walking and running. Deep learning techniques like LSTM have been introduced and good performances are achieved. However, the computational cost of deep learning and the complexity of deployment limit the application of the method. Moreover, if you want explanable algorithms then the traditional machine learning techniques are more applicable. In the article, we provide a start code has good scalability and could be easily used in your projects. The script is simple to add variuos features, labels and make comparisons among many classifiers.
+Human activity recognition uses sensors on smartphone to estimate user's activities such as walking and running [[1]](#1). Deep learning techniques like LSTM have been introduced and good performances are achieved. However, the computational cost of deep learning and the complexity of deployment limit the application of the method. Moreover, if you want explanable algorithms then the traditional machine learning techniques are more applicable. In the article, we provide a start code has good scalability and could be easily used in your projects. The script is extensible, you could add more features, labels and make comparisons among many classifiers like [[1]](#1) [[2]](#2)
 
 
 
@@ -53,6 +54,7 @@ If *frameSize=250* and *frameOverlap=100*, a (N, 1) data could be segmented to (
 |![Figure1](https://raw.githubusercontent.com/aobuke/Human-Activity-Recognition/master/figure2.PNG) | 
 |:--:| 
 | *Figure 2: Segmentation Example* |
+
   Where the solid line is the end of a frame and the dotted line is the start, and there has overlap between the two lines.
 ```Matlab
     frame(:,:,1) = buffer(rawData(:,1),frameSize,frameOverlap,'nodelay')';
@@ -62,18 +64,25 @@ If *frameSize=250* and *frameOverlap=100*, a (N, 1) data could be segmented to (
 Where the build-in function buffer() is employed. Hence, we have transformed (N, 3) data into (frameSize, frameNum, 3)  array.
 ### Expand Dimension
 In order to extract more information based on raw data of (x, y, z), we could also construct more dimensions from the original data like: 
-   >![magnitude](https://latex.codecogs.com/svg.latex?m=\sqrt{x^2&space;&plus;&space;y^2&space;&plus;&space;z^2}), the magnitude that makes the recognition invariant to rotation.
-![phi](https://latex.codecogs.com/svg.latex?\phi'=cos^{-1}(\frac{z}{m}))
-![theta](https://latex.codecogs.com/svg.latex?%5Ctheta%3Dtan%5E%7B-1%7D%28%5Cfrac%7Bx%7D%7B%5Csqrt%7By%5E2&plus;z%5E2%7D%29%7D%29)
-![psi](https://latex.codecogs.com/svg.latex?%5Cpsi%3Dtan%5E%7B-1%7D%28%5Cfrac%7By%7D%7B%5Csqrt%7Bx%5E2&plus;z%5E2%7D%29%7D%29)
-![](https://latex.codecogs.com/svg.latex?%5Cphi%3Dtan%5E%7B-1%7D%28%5Cfrac%7B%5Csqrt%7Bx%5E2&plus;y%5E2%7D%29%7D%7Bz%7D%29)
-Where ![](https://latex.codecogs.com/svg.latex?\phi'), ![](https://latex.codecogs.com/svg.latex?%5Ctheta), ![](https://latex.codecogs.com/svg.latex?%5Cpsi), and ![](https://latex.codecogs.com/svg.latex?%5Cphi) are the angles of the sensor [].
+   >![magnitude](https://latex.codecogs.com/gif.latex?m=\sqrt{x^2&space;&plus;&space;y^2&space;&plus;&space;z^2}), the magnitude that makes the recognition invariant to rotation.
+      
+![phi](https://latex.codecogs.com/gif.latex?\phi'=cos^{-1}(\frac{z}{m}))
+
+![theta](https://latex.codecogs.com/gif.latex?%5Ctheta%3Dtan%5E%7B-1%7D%28%5Cfrac%7Bx%7D%7B%5Csqrt%7By%5E2&plus;z%5E2%7D%29%7D%29)
+
+![psi](https://latex.codecogs.com/gif.latex?%5Cpsi%3Dtan%5E%7B-1%7D%28%5Cfrac%7By%7D%7B%5Csqrt%7Bx%5E2&plus;z%5E2%7D%29%7D%29)
+
+![](https://latex.codecogs.com/gif.latex?%5Cphi%3Dtan%5E%7B-1%7D%28%5Cfrac%7B%5Csqrt%7Bx%5E2&plus;y%5E2%7D%29%7D%7Bz%7D%29)
+
+Where ![](https://latex.codecogs.com/gif.latex?\phi'), ![](https://latex.codecogs.com/gif.latex?%5Ctheta), ![](https://latex.codecogs.com/gif.latex?%5Cpsi), and ![](https://latex.codecogs.com/gif.latex?%5Cphi) are the angles of the sensor [].
 
 |![Figure3](https://raw.githubusercontent.com/aobuke/Human-Activity-Recognition/master/figure3.PNG) | 
 |:--:| 
 | *Figure 3* |
+
 Finally, we got an array of (frameNum, frameSize, 8) *frameData*, which means *frameData(i, :, j)* (frameSize-by-1) is the data of i-th frame and j-th dimension.
 So far, the segmentation and dimension expand have been applied. 
+
 ## Feature extraction
 We could extract as many features as we want from each frame defined by *frameData(i, :, j)*.  For example, we could apply build-in functions like mean() to one frame and vectorize the algorithm:
 ```Matlab
@@ -140,6 +149,8 @@ You could expand the dimension by anyways you like, e.g., a specific pattern/sha
 and furthermore extact any features from the dimension
 
 Easily to be implemented by C language.
+
+For further affects of different settings like sensor position, sampling rate, classifers, please find [[2]](#2)
 ## Experient Design
 Experiment design notes:
 1. Use a camera to record the subject's activity
@@ -149,9 +160,17 @@ Experiment design notes:
 3. an android app to record the sensor.
     e.g. Advanced Sensor Recorder, Sensor Record or https://github.com/kprikshit/android-sensor-data-recorder
 ## Reference
+<a id="1">[1]</a> 
 Buke, Ao, et al. "**Healthcare algorithms by wearable inertial sensors: a survey.**" China Communications 12.4 (2015): 1-12.
 
+<a id="2">[2]</a> 
 Ao, Buke, et al. "**Context Impacts in Accelerometer-Based Walk Detection and Step Counting.**" Sensors 18.11 (2018): 3604.
+
+<a id="3">[3]</a> 
+Bulling, Andreas, Ulf Blanke, and Bernt Schiele. "A tutorial on human activity recognition using body-worn inertial sensors." ACM Computing Surveys (CSUR) 46.3 (2014): 1-33.
+
+<a id="4">[4]</a> 
+Brajdic, Agata, and Robert Harle. "Walk detection and step counting on unconstrained smartphones." Proceedings of the 2013 ACM international joint conference on Pervasive and ubiquitous computing. 2013.
 ## Citation
 
 ## Furthermore
